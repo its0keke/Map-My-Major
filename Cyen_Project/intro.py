@@ -1,3 +1,4 @@
+# you have to install these modules to manipulate spreadsheet files
 import xlrd, xlwt
 
 class Major(object):
