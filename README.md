@@ -1,1 +1,1 @@
-# cyber_project
+# Map-My-Major by SVC
