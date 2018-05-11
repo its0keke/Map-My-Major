@@ -1,5 +1,4 @@
-# you have to install these modules to manipulate spreadsheet files
-import xlrd, xlwt
+import xlrd, xlwt, sys
 
 class Major(object):
     def __init__(self, college, hrs, course_list):
@@ -8,24 +7,45 @@ class Major(object):
         self.course_list = course_list
 
 class Course(object):
-    def __init__(self, id, hrs, diff):
+    def __init__(self, id, hrs, coReq, preReq):
         self.id = id
         self.hrs = hrs
-        self.diff = diff
+        self.preReq = preReq
+        self.coReq = coReq
 
     def __str__(self):
-        return "Course: {}; Hours: {}; Difficulty {};".format(self.id, self.hrs, self.diff)
+        return "Course: {}; \tHours: {}; \tCoReqs: {}; \tPreReqs: {};".format(self.id, self.hrs, self.coReq, self.preReq)
+
+def getCoReqs(sh, i):
+    coReqs = []
+    cell = sh.cell_value(rowx=i, colx=2)
+    try:
+        coReqs.append(cell.split(", "))
+    except:
+        return None
+    return coReqs
+
+def getPreReqs(sh, i):
+    preReqs = []
+    cell = sh.cell_value(rowx=i, colx=3)
+    try:
+        preReqs.append(cell.split(", "))
+    except:
+        return None
+    return preReqs
+
 
 def create_list(sh, nrows):
     # create a list to store the course
-    list = [0]*nrows
+    list = []
 
-    for i in range(nrows):
+    for i in range(1, nrows-1):
         id = sh.cell_value(rowx=i, colx=0)
         hrs = sh.cell_value(rowx=i, colx=1)
-        diff = sh.cell_value(rowx=i, colx=2)
+        coReq = getCoReqs(sh, i)
+        preReq = getPreReqs(sh, i)
 
-        list[i] = Course(id, hrs, diff)
+        list.append(Course(id, hrs, coReq, preReq))
 
     return list
 
@@ -50,9 +70,9 @@ def list_courses(list):
         print list[i]
 
 # accesses the spreadsheet at given directory
-book = xlrd.open_workbook("Courses.xlsx")
+book = xlrd.open_workbook(sys.argv[1], "r")
 
 CSC_list = CSC()
 list_courses(CSC_list)
-MATH_list = MATH()
-list_courses(MATH_list)
+# MATH_list = MATH()
+# list_courses(MATH_list)

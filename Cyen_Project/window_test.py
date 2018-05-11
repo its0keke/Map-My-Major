@@ -1,7 +1,7 @@
 from Tkinter import *
 
 # the main GUI
-class PageOne(Frame):
+class MainGUI(Frame):
 
 	# the constructor
 	def __init__(self, parent):
@@ -22,33 +22,22 @@ class PageOne(Frame):
 		major = Label(text="Select Your Major:")
 		major.grid(column=0, row=0)
 
-		maj_var = StringVar()
-		cyen = Radiobutton(text="Cyber Engineering", variable=maj_var, value="cyen")
+		cyen_var = IntVar()
+		cyen = Checkbutton(text="Cyber Engineering", variable=cyen_var)
 		cyen.grid(column=0, row=1, sticky=W)
 
-		math = Radiobutton(text="Mathematics", variable=maj_var, value="math")
+		math_var = IntVar()
+		math = Checkbutton(text="Mathematics", variable=math_var)
 		math.grid(column=0, row=2, sticky=W)
 
-		bme = Radiobutton(text="Biomedical Engineering", variable=maj_var, value="bme")
+		bme_var = IntVar()
+		bme = Checkbutton(text="Biomedical Engineering", variable=bme_var)
 		bme.grid(column=0, row=3, sticky=W)
 
-		submit = Button(text="Submit", command=lambda: controller.show_frame(PageTwo))
-		submit.grid(column=0, row=8, sticky=W)
+
 
 		quit = Button(text="Quit", command=self.quit)
-		quit.grid(column=8, row=8, sticky=E)
-
-	def sub(self, val):
-		print val.get()
-		controller.show_frame(PageTwo)
-
-class PageTwo(Frame):
-
-	# the constructor
-	def __init__(self, parent):
-
-		# initialize the window withe white background
-		Frame.__init__(self, parent, bg="white")
+		quit.grid(column=8, row=8)
 
 # create the window
 window = Tk()
@@ -62,6 +51,6 @@ window.geometry("{}x{}".format(screen_width/2, screen_height/2))
 # set the window title
 window.title("Schedule Me Please.")
 # generate the GUI
-p = PageOne(window)
+p = MainGUI(window)
 # displat the GUI and wait for user interaction
 window.mainloop()
